@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function (models) {
     // associations can be defined here
+
   };
 User.prototype.toSafeObject = function () {
   const { id, username, email } = this; // context will be the User instance
@@ -88,3 +89,4 @@ User.signup = async function ({ username, email, password }) {
 };
   return User;
 };
+

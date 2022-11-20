@@ -3,11 +3,11 @@
   "version": "1.2.0",
   "description": "",
   "main": "index.js",
-   "scripts": {
+  "scripts": {
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
     "start": "nodemon -r dotenv/config ./bin/www"
-},
+  },
   "author": "ayushman tripathi",
   "license": "ISC",
   "dependencies": {
@@ -28,6 +28,7 @@
     "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
-    "dotenv-cli": "^6.0.0"
+    "dotenv-cli": "^6.0.0",
+    "nodemon": "^2.0.20"
   }
 }

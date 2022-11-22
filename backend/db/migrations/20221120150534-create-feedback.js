@@ -1,25 +1,31 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Users", {
+    return queryInterface.createTable("Feedbacks", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
-        type: Sequelize.STRING(30),
+      title: {
+        type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      email: {
-        type: Sequelize.STRING(256),
+      category: {
+        type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      hashedPassword: {
-        type: Sequelize.STRING.BINARY,
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      upvotes: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       createdAt: {
@@ -32,18 +38,20 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now"),
       },
-      avatar:{
-        type: Sequelize.STRING,
-        allowNull: false
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "Users", key: "id" },
+        onDelete: "cascade"
       },
-      feedbacks: {
+      comments: {
         type: Sequelize.STRING,
         allowNull: false,
-        references: { model: "Feedbacks", key: "id" }
+        references: { model: "Comments", key: "id" }
       },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
-  }
+    return queryInterface.dropTable("Feedbacks");
+  },
 };

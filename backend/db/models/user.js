@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60],
         },
       },
+      avatar: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      
     },
     {
       defaultScope: {

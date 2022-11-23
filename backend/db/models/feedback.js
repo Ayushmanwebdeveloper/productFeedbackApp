@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   Feedback.associate = function (models) {
     // associations can be defined here
+    Feedback.belongsTo(models.User);
+    Feedback.hasMany(models.Comment);
   };
   return Feedback;
 };

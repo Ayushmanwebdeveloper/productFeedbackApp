@@ -1,8 +1,14 @@
 const router = require("express").Router();
 const sessionRouter = require("./session.js");
 const usersRouter = require("./users.js");
+const feedbackRouter = require("./feedbacks.js");
+const commentRouter = require("./comments.js");
+const replyRouter = require("./replies.js");
 router.use("/session", sessionRouter);
 router.use("/users", usersRouter);
+router.use("/feedbacks", feedbackRouter);
+router.use("/comments", commentRouter);
+router.use("/replies", replyRouter);
 router.post("/test", function (req, res) {
   res.json({ requestBody: req.body });
 });

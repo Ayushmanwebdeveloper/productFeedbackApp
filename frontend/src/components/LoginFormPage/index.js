@@ -11,10 +11,9 @@ function LoginFormPage() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return (
+  if (sessionUser)  return (
     <Redirect to="/" />
   );
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -23,6 +22,7 @@ function LoginFormPage() {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });
+
   }
 
   return (

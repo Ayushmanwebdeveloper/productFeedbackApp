@@ -23,5 +23,34 @@ module.exports = (sequelize, DataTypes) => {
     Feedback.belongsTo(models.User);
     Feedback.hasMany(models.Comment);
   };
+  Feedback.add = async function ({ title, category, status, description, upvotes, userId }) {
+    const feedback = await Feedback.create({
+      title,
+      category,
+      status,
+      description,
+      upvotes,
+      userId,
+    });
+    return await Feedback.findByPk(feedback.id);
+
+  };
+  Feedback.edit = async function ({ id, title, category, status, description, upvotes, userId }) {
+    const feedback = await Feedback.findByPk(id);
+    await feedback.update({
+      title,
+      category,
+      status,
+      description,
+      upvotes,
+      userId,
+    });
+    return await Feedback.findByPk(feedback.id);
+  };
+  Feedback.delete = async function ({ id }) {
+    const feedback = await Feedback.findByPk(id);
+    await feedback.destroy();
+    return feedback;
+  };
   return Feedback;
 };

@@ -59,4 +59,47 @@ const requireAuth = [
     return next(err);
   },
 ];
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+
+///////////////////////////////////////////////
+
+const tokenExtractor = (req, res, next) => {
+  // req.token = null;
+  // const authorization = req.get("authorization");
+  // if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+  //   req.token = authorization.substring(7);
+  // }
+
+  // return next();
+};
+
+const userExtractor = async (req, res, next) => {
+  // req.user = null;
+  // const { token } = req.cookies;
+  // const decodedToken = jwt.verify(token, secret, null, async (err, jwtPayload));
+  // if (!req.token || !decodedToken.id) {
+  //   return res.status(401).json({ error: "token missing or invalid" });
+  // }
+  // req.user = await User.findById(decodedToken.id);
+  // return next();
+  ////////////////////////////////
+  req.user = null;
+  const { token } = req.cookies;
+  return jwt.verify(token, secret, null, async (err, jwtPayload) => {
+    if (err) {
+      return next();
+    }
+
+    try {
+      const { id } = jwtPayload.data;
+      req.user = await User.scope("currentUser").findByPk(id);
+    } catch (e) {
+      return next();
+    }
+
+    return next();
+  });
+};
+
+
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, userExtractor, tokenExtractor };

@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       status: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: false },
       upvotes: { type: DataTypes.INTEGER, allowNull: false },
+      UserId: { type: DataTypes.INTEGER, allowNull: false },
     },
     {}
   );
@@ -23,19 +24,19 @@ module.exports = (sequelize, DataTypes) => {
     Feedback.belongsTo(models.User);
     Feedback.hasMany(models.Comment);
   };
-  Feedback.add = async function ({ title, category, status, description, upvotes, userId }) {
+  Feedback.add = async function ({ title, category, status, description, upvotes, UserId }) {
     const feedback = await Feedback.create({
       title,
       category,
       status,
       description,
       upvotes,
-      userId,
+      UserId,
     });
     return await Feedback.findByPk(feedback.id);
 
   };
-  Feedback.edit = async function ({ id, title, category, status, description, upvotes, userId }) {
+  Feedback.edit = async function ({ id, title, category, status, description, upvotes, UserId }) {
     const feedback = await Feedback.findByPk(id);
     await feedback.update({
       title,
@@ -43,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       status,
       description,
       upvotes,
-      userId,
+      UserId,
     });
     return await Feedback.findByPk(feedback.id);
   };

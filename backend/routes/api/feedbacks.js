@@ -1,7 +1,7 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const router = express.Router();
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
+const { setTokenCookie, requireAuth, userExtractor } = require("../../utils/auth");
 const { Feedback } = require("../../db/models");
 const{ check } = require('express-validator');
 const { handleValidationErrors } = require("../../utils/validation");
@@ -32,14 +32,14 @@ router.get(
   );
 
   router.post(
-    '/',
+    '/', userExtractor,
     validateFeedback,
     asyncHandler(async (req, res) => {
-      const { title, category, status, description, upvotes, userId } = req.body;
-      const feedback = await Feedback.add({ title, category, status, description, upvotes, userId });
+      const { title, category, status, description, upvotes, user} = req.body;
+      const feedback = await Feedback.add({ title, category, status, description, upvotes, UserId:req.user.id });
       return res.json({
         feedback
       });
     })
-  ); 
-  module.exports= router;
+  );
+module.exports= router;

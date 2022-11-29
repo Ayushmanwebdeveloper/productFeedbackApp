@@ -7,10 +7,11 @@ const cookieParser = require("cookie-parser");
 const { environment } = require("./config");
 const isProduction = (environment === "production");
 const app = express();
+const { userExtractor, tokenExtractor } = require("./utils/auth");
 
 app.use(morgan("dev"));
 app.use(cookieParser());
-
+// app.use(tokenExtractor);
 app.use(express.json());
 if (!isProduction) {
   app.use(cors());

@@ -4,6 +4,7 @@ const router = express.Router();
 const { setTokenCookie, requireAuth, userExtractor } = require("../../utils/auth");
 const { Feedback } = require("../../db/models");
 const{ check } = require('express-validator');
+const { Op } = require("sequelize");
 const { handleValidationErrors } = require("../../utils/validation");
 
 const validateFeedback=[
@@ -42,4 +43,32 @@ router.get(
       });
     })
   );
+  router.patch(
+    '/', userExtractor,
+    validateFeedback,
+    asyncHandler(async (req, res) => {
+      const {id, title, category, status, description, upvotes, user} = req.body;
+      const feedback = await Feedback.update({ title, category, status, description, upvotes, UserId:req.user.id }, {
+        where: {
+          [Op.and]: [{ UserId:req.user.id }, { id: id }]}});
+      return res.json({
+        feedback
+      });
+    })
+  );
+  router.delete(
+    '/', userExtractor,
+    validateFeedback,
+    asyncHandler(async (req, res) => {
+      const { id,user } = req.body;
+      const feedback = await Feedback.findByPk(id);
+      await feedback.destroy({
+        where: {
+          [Op.and]: [{ UserId:req.user.id }, { id: id }]}
+      });
+      return res.json({
+        feedback
+      });
+}));
+
 module.exports= router;

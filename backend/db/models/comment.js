@@ -7,14 +7,15 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         len: [1, 255],
       }
-    }
+    },
+    UserId: { type: DataTypes.INTEGER, allowNull: false },
+    FeedbackId: { type: DataTypes.INTEGER, allowNull: false },
   }, {});
   Comment.associate = function(models) {
     // associations can be defined here
     Comment.belongsTo(models.User);
     Comment.hasMany(models.Reply, { foreignKey: "commentId", onDelete: "cascade" });
     Comment.belongsTo(models.Feedback);
-
-  };
+};
   return Comment;
 };

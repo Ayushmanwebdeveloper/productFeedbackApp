@@ -34,8 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       UserId,
     });
     return await Feedback.findByPk(feedback.id);
-
-  };
+};
   Feedback.edit = async function ({ id, title, category, status, description, upvotes, UserId }) {
     const feedback = await Feedback.findByPk(id);
     await feedback.update({

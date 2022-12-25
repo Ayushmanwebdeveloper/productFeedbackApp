@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         len: [1, 255],
       }
-    }
+    },
+    UserId: { type: DataTypes.INTEGER, allowNull: false },
+    CommentId: { type: DataTypes.INTEGER, allowNull: false },
   }, {});
   Reply.associate = function(models) {
     // associations can be defined here

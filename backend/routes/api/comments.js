@@ -6,7 +6,7 @@ const {
   requireAuth,
   userExtractor,
 } = require("../../utils/auth");
-const { Comment } = require("../../db/models");
+const { Comment, Feedback } = require("../../db/models");
 const { check } = require("express-validator");
 const { Op } = require("sequelize");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -32,18 +32,32 @@ router.post(
   "/:id",
   userExtractor,
   validateComment,
-  asyncHandler(async (req, res) => {
-    const { title, category, status, description, upvotes, user } = req.body;
-    const feedback = await Feedback.add({
-      title,
-      category,
-      status,
-      description,
-      upvotes,
+asyncHandler(async (req, res) => {
+  const { body, user } = req;
+  const feedback = await Feedback.findByPk(req.params.id);
+    const { content } = req.body;
+    const comment = await Comment.create({
+      content: content,
+      FeedbackId: feedback.id,
       UserId: req.user.id,
     });
     return res.json({
-      feedback,
+      comment,
     });
-  })
+})
 );
+router.delete("/:id",
+userExtractor,
+asyncHandler(async (req, res) => {
+  const { user } = req.user;
+  const comment = await Comment.findByPk(req.params.id);
+    if (comment.user !== req.user.id) {
+      return res
+        .status(401)
+        .json({ error: "Only the owner can delete Comments" });
+    }
+    await comment.destroy();
+    return res.status(204).end();
+})
+);
+module.exports= router;

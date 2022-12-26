@@ -10,9 +10,9 @@ const { Comment, Feedback } = require("../../db/models");
 const { check } = require("express-validator");
 const { Op } = require("sequelize");
 const { handleValidationErrors } = require("../../utils/validation");
-module.exports = router;
+
 const validateComment = [
-  check("comment")
+  check("content")
     .exists({ checkFalsy: true })
     .isLength({ min: 2 })
     .withMessage("Please provide a comment with at least 2 characters."),
@@ -51,7 +51,7 @@ userExtractor,
 asyncHandler(async (req, res) => {
   const { user } = req.user;
   const comment = await Comment.findByPk(req.params.id);
-    if (comment.user !== req.user.id) {
+    if (comment.UserId !== req.user.id) {
       return res
         .status(401)
         .json({ error: "Only the owner can delete Comments" });

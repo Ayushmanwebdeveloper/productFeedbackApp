@@ -39,6 +39,20 @@ asyncHandler(async (req, res) => {
     });
 })
 );
+router.delete("/:id",
+userExtractor,
+asyncHandler(async (req, res) => {
+    const { user } = req.user;
+    const reply = await Reply.findByPk(req.params.id);
+    if (reply.UserId !== req.user.id) {
+        return res
+        .status(401)
+        .json({ error: "Only the owner can delete Replies" });
+    }
+    await reply.destroy();
+    return res.status(204).end();
+})
+);
 
 
 module.exports= router;

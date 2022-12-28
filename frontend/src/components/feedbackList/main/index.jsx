@@ -33,20 +33,7 @@ const Main = ({
       <Empty toggleAddPage={toggleAddPage} />
     ) : (
       <>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          feedback?.map((feed) => (
-            <Feedback
-              feedbackList={feedback}
-              feedback={feed}
-              key={feed.id}
-              serverUser={serverUser}
-              setShowAlert={setShowAlert}
-              setNotify={setNotify}
-            />
-          ))
-        )}
+        
       </>
     )}
   </Container>

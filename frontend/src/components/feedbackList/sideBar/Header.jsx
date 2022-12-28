@@ -37,10 +37,10 @@ const HeaderTxt = styled.div`
 
 const Header = () => (
   <Container>
-    <HeaderImg src="/background-header.png" alt="header-background" />
+    
     <HeaderTxt>
-      <h2>Frontend Mentor</h2>
-      <p>Feedback Board</p>
+      <h2>Feedback App</h2>
+      <p>Feedback Board by Ayushman</p>
     </HeaderTxt>
   </Container>
 );
